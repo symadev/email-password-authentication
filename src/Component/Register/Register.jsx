@@ -1,10 +1,37 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../Firebase/Firebase";
+
 
 
 const Register = () => {
-
+//this is for localhost a provided information gulo dekhar jonne
     const handleRegister= (event)=>{
         event.preventDefault();
-        console.log(event.target.email.value);
+        const email=event.target.email.value;
+        
+        const password=event.target.password.value;
+        
+         console.log(email,password);
+
+         //create user with user and password
+         //this section is for create user
+
+         createUserWithEmailAndPassword(auth, email, password)
+  .then(result => {
+    // Signed up 
+    console.log(result.user)
+    // ...
+  })
+  .catch((error) => {
+    console.log('Error', error)
+    // ..
+  });
+
+
+//aitar por firebase a jeye -usera jeye -reload korle amra put kora information gulo dekhte pabo
+
+
+       
     }
     return (
         <div className="flex justify-center items-center min-h-screen">
@@ -20,7 +47,7 @@ const Register = () => {
                   <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                   <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                 </svg>
-                <input type="email" className="grow" placeholder="Email" />
+                <input type="text" name="email" className="grow" placeholder="Email" />
               </label>
       
               <label className="input input-bordered flex items-center gap-2 w-full">
@@ -36,7 +63,7 @@ const Register = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                <input type="password" className="grow" placeholder="Password" />
+                <input type="password" name="password" className="grow" placeholder="Password" />
               </label>
       
               <button className="btn btn-accent btn-secondary btn-wide my-6">Login</button>
