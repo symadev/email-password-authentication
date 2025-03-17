@@ -1,5 +1,6 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from "../../Firebase/Firebase";
+import { Link } from "react-router-dom";
 
 
 
@@ -15,9 +16,8 @@ const Register = () => {
 
      
 
-         //create user with user and password
+      //create user with user and password
          //this section is for create user
-
          createUserWithEmailAndPassword(auth, email, password)
   .then(result => {
     // Signed up 
@@ -30,10 +30,24 @@ const Register = () => {
   });
 
 
+
+
+  //Send a user a verification email
+
+  sendEmailVerification(auth.currentUser)
+  .then(() => {
+  console.log("Email verification sent!");
+    // ...
+  });
+
+
+
+
+
+
+
 //aitar por firebase a jeye -user a jeye -reload korle amra put kora information gulo dekhte pabo
-
-
-       
+   
     }
     return (
         <div className="flex justify-center items-center min-h-screen">
@@ -67,6 +81,7 @@ const Register = () => {
                 </svg>
                 <input type="password" name="password" className="grow" placeholder="Password" />
               </label>
+              <p>New to this website? please <Link to ="/login">Login</Link></p>
       
               <button className="btn btn-accent btn-secondary btn-wide my-6">Login</button>
             </form>

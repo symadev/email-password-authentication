@@ -31,4 +31,4 @@ const app = initializeApp(firebaseConfig);
 //config the code securely
 //sign in method enable
 //build-get-started-enable email-pass
-//go t o the docs
+//go to the docs
