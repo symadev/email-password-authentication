@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../Firebase/Firebase";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [error, setError] = useState(null);
 const[success,setSuccess] = useState(false);
+const[showPassword,setshowPassword] = useState(false);
 //this is for showing the success masssage
 
 
@@ -12,9 +14,10 @@ const[success,setSuccess] = useState(false);
     event.preventDefault();
     const name = event.target.name.value;
     const email = event.target.email.value;
+    const terms=  event.target.terms.checked;
     const password = event.target.password.value;
 
-    console.log("Name:", name);
+    console.log("Name:", name,terms);
 
 
 
@@ -23,13 +26,23 @@ const[success,setSuccess] = useState(false);
     setError('');
     setSuccess(false);
 
+    
+    if(!terms){
+        setError('Please Accept our terms and Condition');
+        return;
+    }
+
 
     if(password.length<6){
         setError('the password should be 6 character or more longer');
         return;
     }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-
+if (passwordRegex.test(password)){
+    setError('must have uppercase,one lowercase nad one number at least and also one special character');
+    return;
+}
 
 
     createUserWithEmailAndPassword(auth, email, password)
@@ -59,14 +72,32 @@ const[success,setSuccess] = useState(false);
           <input type="email" name="email" className="grow p-2 border rounded" placeholder="Email" required />
         </label>
         <label className="input input-bordered flex items-center gap-2">
-          <input type="password" name="password" className="grow p-2 border rounded" placeholder="Password" required />
+          <input type={showPassword ? 'text':'password'} 
+          name='password'
+           className="grow p-2 border rounded"
+           placeholder="Password" 
+           required />
+        <button  onClick ={()=>setshowPassword(!showPassword)}className="btn btn-xs">
+
+
+        {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+
+</button>
         </label>
 
 
 
         {error && <p className="text-red-500">{error}</p>}
-        
+
         {success && <p className="text-green-500">Sign up is Successfull</p>}
+
+        <div className="form-control">
+  <label className="label cursor-pointer">
+  <input type="checkbox" name='terms' className="checkbox checkbox-primary" />
+    <span className="label-text">Accept Our Terms</span>
+   
+  </label>
+</div>
 
 
 
