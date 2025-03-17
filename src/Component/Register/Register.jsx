@@ -13,6 +13,8 @@ const Register = () => {
         
          console.log(email,password);
 
+     
+
          //create user with user and password
          //this section is for create user
 
@@ -28,7 +30,7 @@ const Register = () => {
   });
 
 
-//aitar por firebase a jeye -usera jeye -reload korle amra put kora information gulo dekhte pabo
+//aitar por firebase a jeye -user a jeye -reload korle amra put kora information gulo dekhte pabo
 
 
        
