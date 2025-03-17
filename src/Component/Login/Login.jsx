@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
-import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile } from "firebase/auth";
 import { auth } from "../../Firebase/Firebase";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
+
+
   const [error, setError] = useState(null);
 const[success,setSuccess] = useState(false);
 const[showPassword,setshowPassword] = useState(false);
@@ -15,11 +17,12 @@ const emailRef = useRef();
   const handleLogin = (event) => {
     event.preventDefault();
     const name = event.target.name.value;
+    const photo = event.target.photo.value;
     const email = event.target.email.value;
     const terms=  event.target.terms.checked;
     const password = event.target.password.value;
 
-    console.log("Name:", name,terms);
+    console.log("Name:", name,terms,email,password,photo);
 
 
 
@@ -95,6 +98,20 @@ else{
     console.log("Email verification sent!");
       // ...
     });
+
+
+
+    //update profile name and photourl
+    updateProfile(auth.currentUser, {
+        displayName: "Jane Q. User", photoURL: "https://i.ibb.co.com/3YQPKzBB/download-12.jpg"
+      }).then(() => {
+        console.log("user profile updated!");
+        // Profile updated!
+        // ...
+      }).catch((error) => {
+        // An error occurred
+        // ...
+      });
   
 
 
@@ -108,9 +125,15 @@ else{
         <label className="input input-bordered flex items-center gap-2">
           <input type="text" name="name" className="grow p-2 border rounded" placeholder="Name" />
         </label>
+
+        <label className="input input-bordered flex items-center gap-2">
+          <input type="text" name="photo" className="grow p-2 border rounded" placeholder="photoUrl" />
+        </label>
+
         <label className="input input-bordered flex items-center gap-2">
           <input type="email" name="email" className="grow p-2 border rounded" placeholder="Email" ref={emailRef} required />
         </label>
+
         <label className="input input-bordered flex items-center gap-2">
           <input type={showPassword ? 'text':'password'} 
           name='password'
